@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -82,8 +83,16 @@ public class AuthController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if(auth != null && auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)){
-            return ResponseEntity.status(HttpStatus.OK).body("Successful Login"); //TODO: need to send user data after successful login
+        log.info(String.valueOf(auth.isAuthenticated()));
+
+        if(auth.isAuthenticated() && !(auth instanceof AnonymousAuthenticationToken)){
+            String email = auth.getPrincipal().toString();
+
+            Map<String, Object> response = Map.of(
+                    "message", "Successful Login",
+                    "email", email
+            );
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login Needed");
