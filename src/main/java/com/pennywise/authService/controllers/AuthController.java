@@ -74,8 +74,8 @@ public class AuthController {
 
         LoginResponse response = authService.freshLogin(req, request, ip, userAgent, deviceId, req.getFreshLogin());
 
-        if(response.getMessage().equals("Successful Login")) return ResponseEntity.status(HttpStatus.OK).body(response.getMessage());
-        else return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response.getMessage());
+        if(response.getMessage().equals("Successful Login")) return ResponseEntity.status(HttpStatus.OK).body(response);
+        else return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 
     @GetMapping("/login")

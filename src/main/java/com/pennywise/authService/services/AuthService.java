@@ -263,6 +263,7 @@ public class AuthService {
             //return string user not found
             response.setJwe(null);
             response.setRefreshToken(null);
+            response.setEmail(null);
             response.setMessage("User Not Found");
         } else {
             Boolean match = passHash.equals(user.getPassword());
@@ -296,6 +297,7 @@ public class AuthService {
 
                 response.setJwe(jweCookie);
                 response.setRefreshToken(refreshCookie);
+                response.setEmail(email);
                 response.setMessage("Successful Login");
 
                 redisConfig.redisTemplate(redisConfig.redisConnectionFactory()).opsForValue().set("refresh:"+email+":"+deviceId, newRefreshToken);
@@ -306,6 +308,7 @@ public class AuthService {
                 //return string invalid credentials
                 response.setJwe(null);
                 response.setRefreshToken(null);
+                response.setEmail(null);
                 response.setMessage("Invalid Credentials");
             }
         }
